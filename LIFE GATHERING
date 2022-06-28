@@ -1,19 +1,20 @@
-#include <iostream>
-#include <stdlib.h>
-#include <conio.h>
-using namespace std;
+// LIBRARY
+#include <iostream> // I/O stream sebagai standarisasi program input output
+#include <stdlib.h> // untuk konversi
+#include <conio.h> // untuk menampilkan hasil antarmuka pada pengguna
+using namespace std; //meminimalisir syntax
 
-struct DaftarSkill {
+struct DaftarSkill { // merupakan tipe data, mengumpulkan beberapa variabel dengan beragam tipe data yang dibungkus dalam satu varabel
 	string nama;
 	string jenisSkill;
-	int nambahHp;
+	int nambahNyawa;
 };
 struct DaftarMusuh {
 	string name;
 	int damage;
 	int hp;
 	
-	void lawan(DaftarMusuh *DaftarMusuhObject) {
+	void lawan(DaftarMusuh *DaftarMusuhObject) { 
 		int hpFrom = DaftarMusuhObject->hp;
 		cout << name << " menyerang " << DaftarMusuhObject->name << " ! \n";
 		DaftarMusuhObject->hp = DaftarMusuhObject->hp - damage;
@@ -30,15 +31,14 @@ int main() {
     int posisiKarakterX = 6;
     int skillRandom;
     int score;
+    int highScore = 50000;
 
 	DaftarMusuh h1;
 	h1.name = "Kamu";
 	h1.damage = 500;
-	
 	DaftarMusuh h2;
 	h2.name = "Penjaga";
 	h2.hp = 2500;
-	h2.damage = 500;
 	    
     DaftarSkill skill[]{
 		{
@@ -50,11 +50,10 @@ int main() {
         
     char peta[lebarRuang][panjangRuang] = {
         
-        
         {5,5,5,5,5,5,5,5,5,5,5,5,1,1,1,1,1,1,1,'#'},
         {5,5,5,5,5,5,5,5,5,5,5,5,5,5,1,1,1,1,1,1},
         {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1,1,1,1,1},
-        {5,5,5,5,5,5,5,5,5,5,5,5,1,1,1,1,1,1,1,1},
+        {5,5,5,5,5,5,5,5,5,5,1,1,1,1,1,1,1,1,1,1},
         {5,5,5,5,5,5,5,1,1,1,1,1,1,1,1,1,1,1,1,1},
         {5,5,5,5,5,5,5,1,1,1,1,1,1,4,4,4,4,1,1,1},
         {1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,1,1,1},
@@ -75,11 +74,12 @@ int main() {
 	cout << "||     LIFE GATHERING     ||\n";
 	cout << "||    Dev: Kemal Pasha    ||\n";
 	cout << "============================\n\n";
+	cout << "Penjelasan Game :\nKumpulkan nyawa sebanyak mungkin sampai mencapai HIGHSCORE " << highScore << " atau 50 nyawa\nJika Score > HIGHSCORE, maka kamu bakal mendapat hadiah\n" << endl;
     cout  << "===============Aturan Main===============" << endl;
 	cout << "1. Menabrak obstacle (pohon dan batu) nyawa akan berkurang 1\n2. System kadang memberi tantangan sebelum menabrak obstacle, nyawa berkurang 1\n3. Kumpulkan nyawa sebanyak mungkin untuk mendapatan hadiah\n4. Ada penjaga yang siap menghadangmu";
-    cout << "  \nKamu dikasih nyawa untuk saat ini " << nyawa << "\n\n";
+    cout << "  \n5. Kamu dikasih nyawa untuk saat ini " << nyawa << "\n\n";
 
-    while(1) {
+    while(1) { // subordinate conjunction Untuk mengulang suatu proses yang belum diketahui jumlahnya
 		skillRandom = rand() % 50;
         // Input Keyboard
         cout << "Nyawa kamu (" << nyawa << ")\nMasukan perintah dengan arrowkey : \n";
@@ -89,35 +89,35 @@ int main() {
         // Aturan menggerakkan karakter ke atas
         if(arrowKey == 72 && (peta[posisiKarakterY-1][posisiKarakterX] == 1) && posisiKarakterY >= 0) {
             // Gerakkan karakter ke atas untuk melewati satu jalan
-            posisiKarakterY = posisiKarakterY-1;
+            posisiKarakterY -= 1;
         }
         
         // Aturan menggerakkan karakter ke bawah
         if(arrowKey == 80 && (peta[posisiKarakterY+1][posisiKarakterX] == 1) && posisiKarakterY < lebarRuang) {
-            // Gerakkan karakter ke atas
-            posisiKarakterY = posisiKarakterY+1;
+            // Gerakkan karakter ke bawah
+            posisiKarakterY += 1;
         }
         
         // Aturan menggerakkan karakter ke kiri
         if(arrowKey == 75 && (peta[posisiKarakterY][posisiKarakterX-1] == 1) && posisiKarakterX >= 0) {
-            // Gerakkan karakter ke atas
-            posisiKarakterX = posisiKarakterX-1;
+            // Gerakkan karakter ke kiri
+            posisiKarakterX -= 1;
         }
         
         // Aturan menggerakkan karakter ke kanan
         if(arrowKey == 77 && (peta[posisiKarakterY][posisiKarakterX+1] == 1) && posisiKarakterX < panjangRuang) {
             // Gerakkan karakter ke atas
-            posisiKarakterX = posisiKarakterX+1;
+            posisiKarakterX += 1;
         }
         
         // Render grafik
-        for(int y=0; y<lebarRuang; y++) {
+        for(int y = 0; y<lebarRuang; y++) {
             for(int x=0; x<panjangRuang; x++) {
                 
                 if(posisiKarakterX == x && posisiKarakterY == y) {
-                    cout << 1 << " ";
+                    cout << 1 << "  ";
                 } else {
-                    cout << peta[y][x] << " ";
+                    cout << peta[y][x] << "  ";
                 }
             }
             cout << "\n";
@@ -188,20 +188,24 @@ int main() {
 							h1.lawan(&h2);
 							if(h2.hp == 0 || h2.hp < 0){
 								cout<<"Anda Telah mengalahkan penjaga dengan penyerangan sebanyak " << i << " kali" << endl;
-								cout << "Kamu mendapatkan " << skill[0].nama << " " << skill[0].jenisSkill << " " << skill[0].nambahHp << endl << endl;
-								if (skill[0].nambahHp = 2){
+								cout << "Kamu mendapatkan " << skill[0].nama << " " << skill[0].jenisSkill << " " << skill[0].nambahNyawa << endl << endl;
+								if (skill[0].nambahNyawa = 2){
 			            			nyawa += 2;
 			            			cout << "Nyawa kamu sekarang " << nyawa << " lagi" << endl;	
 			            			goto endwhile;
 								}
 							}
 						}else{
+							cout << "Kamu menghindari penjaga nyawa tidak berubah\n";
 							goto endwhile;
 						}	
 						}
 						}
 					}
-            	}
+            	}else {
+            		cout << "Kamu menghindari penjaga nyawa tidak berubah\n";
+
+				}
 			}
 			
 			endwhile:
@@ -210,9 +214,9 @@ int main() {
             	cout << "Obat tidak memiliki penjaga " << "Mau ambil ? (Y/N)" << endl;
             	cin >> pilihan;
             	if (pilihan == 'y' || pilihan == 'Y'){
-					cout << "Kamu mendapatkan " << skill[0].nama << " " << skill[0].jenisSkill << " " << skill[0].nambahHp << endl << endl;
+					cout << "Kamu mendapatkan " << skill[0].nama << " " << skill[0].jenisSkill << " " << skill[0].nambahNyawa << endl << endl;
 					
-				if (skill[0].nambahHp = 2){
+				if (skill[0].nambahNyawa = 2){
             		nyawa += 2;
             		cout << "Nyawa kamu sekarang " << nyawa << " lagi" << endl;
 					}
@@ -246,7 +250,6 @@ int main() {
      system("cls");
      system("color A4");
      score = nyawa * 1000 - 3000;
-     int highScore = 50000;
      if (score > highScore){
      	cout << "Selamat kamu sampai tujuan dengan sisa nyawa " << nyawa << " lagi" << "\nSCORE     = ("<< score << ")\nHIGHSCORE = (" << highScore <<")\n";
      	cout << "Kamu mendapatkan hadiah saldo gopay sebesar Rp 20.000\nGAME OVER!!!\n" << endl;
